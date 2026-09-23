@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Loan Payoff Calculator</title>
+<style>
+body{font-family:Arial,sans-serif;max-width:720px;margin:40px auto;padding:24px;background:#f7f5f2;color:#222}
+.card{background:white;padding:28px;border-radius:18px;box-shadow:0 8px 30px #0001}
+h1{margin-top:0}label{display:block;margin:16px 0 6px}input{width:100%;padding:12px;border:1px solid #ccc;border-radius:8px;box-sizing:border-box;font-size:16px}
+.results{margin-top:24px;padding:18px;background:#f1eee9;border-radius:12px}.result{margin:10px 0;font-size:20px;font-weight:600}
+small{color:#666}
+</style></head>
+<body><div class="card">
+<h1>Loan Payoff Calculator</h1>
+<p>Change the loan amount, term, and annual interest rate to calculate the monthly payment and total interest.</p>
+<label>Loan Amount ($)</label><input id="amount" type="number" value="90000" min="0" step="100">
+<label>Term Length (Months)</label><input id="months" type="number" value="60" min="1" step="1">
+<label>Annual Interest Rate (%)</label><input id="rate" type="number" value="11" min="0" step="0.01">
+<div class="results"><div class="result">Monthly Payment: <span id="payment">$0.00</span></div>
+<div class="result">Total Interest: <span id="interest">$0.00</span></div></div>
+<small>Formula: M = P × r(1+r)^n / ((1+r)^n − 1)</small>
+</div>
+<script>
+function calc(){
+ const P=+amount.value, n=+months.value, annual=+rate.value/100, r=annual/12;
+ let M;
+ if(r===0) M=P/n; else M=P*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
+ payment.textContent=M.toLocaleString('en-US',{style:'currency',currency:'USD'});
+ interest.textContent=(M*n-P).toLocaleString('en-US',{style:'currency',currency:'USD'});
+}
+document.querySelectorAll('input').forEach(x=>x.addEventListener('input',calc)); calc();
+</script></body></html>
